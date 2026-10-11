@@ -6,7 +6,7 @@ $package=Join-Path $root 'build/package/Release/first-person'
 $manifest=Get-Content -LiteralPath (Join-Path $package 'zml-package.json') -Raw -Encoding utf8 | ConvertFrom-Json
 if($manifest.id -ne 'first-person'){throw 'Wrong package'}
 $ini=Get-Content -LiteralPath (Join-Path $package 'mod.ini') -Raw -Encoding utf8
-if($ini -notmatch '(?m)^version=(\d+\.\d+\.\d+)\r?$'){throw 'Invalid version'}
+if($ini -notmatch '(?m)^version=(\d+(?:\.\d+)+)\r?$'){throw 'Invalid version'}
 $version=$Matches[1]
 $dist=Join-Path $root 'dist';New-Item -ItemType Directory -Force $dist | Out-Null
 $zip=Join-Path $dist ("EndfieldFirstPerson-$version-"+(Get-Date -Format 'yyyyMMdd-HHmmss')+'.zip')
