@@ -3,6 +3,7 @@
 为《明日方舟：终末地》提供第一人称视角切换功能，支持真实头部眼位绑定、头颈动作跟随、平滑与迈步转身，以及角色专属趣味视野效果。
 
 > 本仓库基于 [sakevel/Endfield-FirstPerson](https://github.com/sakevel/Endfield-FirstPerson) 0.1.6 继续维护，在其基础上补充了真实眼位跟随、原地转身与视角接管保持等项。
+> 上游未声明开源协议；来源与使用约定见 [NOTICE.md](NOTICE.md)。
 
 ## 操作方式
 
