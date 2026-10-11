@@ -45,7 +45,7 @@ int main(int argc,char** argv){try {
     check(argc==2 || argc==4,"usage");
     auto path=std::filesystem::absolute(argv[1]);auto dll=LoadLibraryW(path.c_str());check(dll!=nullptr,"actual DLL loads");
     auto entry=reinterpret_cast<ZmlPluginEntry>(GetProcAddress(dll,"ZML_PluginV1"));check(entry!=nullptr,"ABI1 exported");
-    auto plugin=entry();check(plugin && plugin->size==sizeof(ZmlPlugin) && plugin->abi==1 && std::string_view(plugin->id)=="first-person","identity");
+    auto plugin=entry();check(plugin && plugin->size==sizeof(ZmlPlugin) && plugin->abi==1 && std::string_view(plugin->id)=="first-person-remix","identity");
     auto dir=path.parent_path().u8string();
     ZmlHost host{sizeof(ZmlHost),1,nullptr,reinterpret_cast<const char*>(dir.c_str()),"",log,add};
     check(!plugin->start(nullptr),"null host rejected");

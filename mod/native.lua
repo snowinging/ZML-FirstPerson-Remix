@@ -1,7 +1,7 @@
 local U=CS.UnityEngine
 local V,Q=U.Vector3,U.Quaternion
 local R=U.Rendering
-local ID='first-person'
+local ID='first-person-remix'
 assert(not rawget(_G,'ZMLFirstPerson'),'first-person namespace occupied')
 local function live(o) return o~=nil and not o:Equals(nil) end
 local function copy(v) return V(v.x,v.y,v.z) end

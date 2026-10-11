@@ -34,6 +34,6 @@ int start(const ZmlHost* host) noexcept {
             host->transform_lua(host->owner,"UI/Panels/LevelCamera/LevelCameraCtrl",transform,reinterpret_cast<void*>(1));
     }catch(...){return 0;}
 }
-const ZmlPlugin plugin{sizeof(ZmlPlugin),1,"first-person",start};
+const ZmlPlugin plugin{sizeof(ZmlPlugin),1,"first-person-remix",start};
 }
 extern "C" __declspec(dllexport) const ZmlPlugin* ZML_PluginV1(){return &plugin;}

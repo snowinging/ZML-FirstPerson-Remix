@@ -4,7 +4,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 $root=Split-Path $PSScriptRoot -Parent
 $package=Join-Path $root 'build/package/Release/first-person'
 $manifest=Get-Content -LiteralPath (Join-Path $package 'zml-package.json') -Raw -Encoding utf8 | ConvertFrom-Json
-if($manifest.id -ne 'first-person'){throw 'Wrong package'}
+if($manifest.id -ne 'first-person-remix'){throw 'Wrong package'}
 $ini=Get-Content -LiteralPath (Join-Path $package 'mod.ini') -Raw -Encoding utf8
 if($ini -notmatch '(?m)^version=(\d+(?:\.\d+)+)\r?$'){throw 'Invalid version'}
 $version=$Matches[1]

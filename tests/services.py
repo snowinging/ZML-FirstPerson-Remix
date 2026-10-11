@@ -8,13 +8,13 @@ def route(name):
     n=p.stdout.readline();assert n,n.decode(errors='replace')
     return p.stdout.read(int(n)).decode('utf8')
 try:
-    registry=route('ZML/Api');assert 'first-person' in registry and 'keybinds' in registry and 'standard' in registry
-    data=route('ZML/Get/first-person');assert 'ok=true' in data and '["fov"]="85"' in data
+    registry=route('ZML/Api');assert 'first-person-remix' in registry and 'keybinds' in registry and 'standard' in registry
+    data=route('ZML/Get/first-person-remix');assert 'ok=true' in data and '["fov"]="85"' in data
     for key,value in [('fov','100'),('head_tilt','true'),('fun_effects','true'),('scan_period','2.25'),('show_body','false')]:
-        result=route('ZML/Set/first-person/'+key+'/'+value.encode().hex());assert 'ok=true' in result and 'restart=false' in result
+        result=route('ZML/Set/first-person-remix/'+key+'/'+value.encode().hex());assert 'ok=true' in result and 'restart=false' in result
     for key,value in [('fov','121'),('sensitivity','nan'),('enabled','yes'),('scan_period','2.13')]:
-        assert 'ok=false' in route('ZML/Set/first-person/'+key+'/'+value.encode().hex())
-    assert '["fov"]="100"' in route('ZML/Get/first-person')
+        assert 'ok=false' in route('ZML/Set/first-person-remix/'+key+'/'+value.encode().hex())
+    assert '["fov"]="100"' in route('ZML/Get/first-person-remix')
     print('PASS actual public registry/schema/defaults/range validation/hot apply/persistence in temporary fixture')
 finally:
     p.stdin.close()

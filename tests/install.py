@@ -7,13 +7,13 @@ with tempfile.TemporaryDirectory(prefix='zml-firstperson-install-') as folder:
     root=Path(folder).resolve();assert root.parent==Path(tempfile.gettempdir()).resolve() and root.name.startswith('zml-firstperson-install-')
     installRoot=root/'framework';installRoot.mkdir()
     protected=installRoot/'mods/other';protected.mkdir(parents=True);(protected/'private.txt').write_text('unrelated')
-    state=installRoot/'state/first-person';state.mkdir(parents=True);(state/'config.ini').write_text('fov=97\n')
+    state=installRoot/'state/first-person-remix';state.mkdir(parents=True);(state/'config.ini').write_text('fov=97\n')
     before=hashset(protected);private=hashset(state)
     def install(pkg,ok=True):
         result=subprocess.run(['powershell','-NoProfile','-ExecutionPolicy','Bypass','-File',str(installer),'-ModPackage',str(pkg),'-PackageRoot',str(installRoot)],capture_output=True,text=True)
         assert (result.returncode==0)==ok,result.stdout+result.stderr
     install(source)
-    target=installRoot/'mods/first-person';expected=json.loads((source/'zml-package.json').read_text())['files']+['zml-package.json']
+    target=installRoot/'mods/first-person-remix';expected=json.loads((source/'zml-package.json').read_text())['files']+['zml-package.json']
     assert set(hashset(target))==set(expected)
     assert all((target/n).read_bytes()==(source/n).read_bytes() for n in expected)
     old=hashset(target)

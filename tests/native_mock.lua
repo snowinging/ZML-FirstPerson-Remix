@@ -229,9 +229,9 @@ local n=0
 LuaUpdate={Add=function(_,group,fn)n=n+1;updates[n]={group=group,fn=fn};return n end,
     Remove=function(_,id)updates[id]=nil;return -1 end}
 local subscribe
-local api={get=function(id)assert(id=='first-person');return config end,
-    subscribe=function(id,fn)assert(id=='first-person');subscribe=fn;return function()subscribe=nil end end,
-    report=function(id,event)assert(id=='first-person');events=events or {};events[#events+1]=event;return true end}
+local api={get=function(id)assert(id=='first-person-remix');return config end,
+    subscribe=function(id,fn)assert(id=='first-person-remix');subscribe=fn;return function()subscribe=nil end end,
+    report=function(id,event)assert(id=='first-person-remix');events=events or {};events[#events+1]=event;return true end}
 function change(key,value)config[key]=value;if subscribe then subscribe(key,value,config,false)end end
 function runGroup(group,dt)if group=='Tick' then CS.UnityEngine.Time.frameCount=CS.UnityEngine.Time.frameCount+1;nativeTurnTick(dt) end;local list={};for k,row in pairs(updates)do if row.group==group then list[#list+1]=row.fn end end;for _,fn in ipairs(list)do fn(dt)end end
 testApi=api
@@ -239,7 +239,7 @@ LuaManagerInst={LoadLua=function(_,path)assert(path=='ZML/Api');return 'return t
 require_ex=function()end
 logger={error=function(s)errors[#errors+1]=s end}
 ZMLKeybinds={api=1,find=function()return nil end,register=function(id,def)
-    assert(id=='first-person' and def.primary=='Ctrl+F5');registrations=registrations+1
+    assert(id=='first-person-remix' and def.primary=='Ctrl+F5');registrations=registrations+1
     return {pressed=function()local v=pressToggle;pressToggle=false;return v==true end}
 end}
 function approximate(a,b,tolerance)assert(math.abs(a-b)<(tolerance or .001),tostring(a)..' != '..tostring(b))end

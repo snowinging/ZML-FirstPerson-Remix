@@ -38,7 +38,7 @@
 ## 安装
 
 1. 先装 [ZML 加载器](https://github.com/sakevel/Endfield-ModLoader)。
-2. 启动器里点「模组 → 获取模组」安装，或从 [Releases](https://github.com/snowinging/ZML-FirstPerson-Remix/releases) 下载 zip 解压到 `ZML/mods/first-person/`。
+2. 启动器里点「模组 → 获取模组」安装，或从 [Releases](https://github.com/snowinging/ZML-FirstPerson-Remix/releases) 下载 zip 解压到 `ZML/mods/first-person-remix/`。
 3. 依赖 [按键绑定](https://github.com/sakevel/Endfield-Keybinds)，需要一并安装。
 
 ## 来源与署名

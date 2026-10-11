@@ -59,7 +59,7 @@ jobs:
           ini.read('mod/mod.ini', encoding='utf-8')
           sec = ini['mod']
 
-          mod_id = sec.get('id', 'first-person')
+          mod_id = sec.get('id', 'first-person-remix')
           mod_name = sec.get('name', '第一人称')
           mod_ver = sec.get('version', '0.1.1')
           mod_desc = sec.get('description', '')

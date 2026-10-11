@@ -1,7 +1,7 @@
 import sys,json,configparser,struct
 from pathlib import Path
 root=Path(sys.argv[1]);source=Path(__file__).resolve().parents[1]/'mod'
-m=json.loads((root/'zml-package.json').read_text());assert m['id']=='first-person'
+m=json.loads((root/'zml-package.json').read_text());assert m['id']=='first-person-remix'
 assert len(set(m['files']))==len(m['files'])==6
 ini=configparser.ConfigParser();ini.read(root/'mod.ini',encoding='utf8')
 assert ini['mod']['depends']=='keybinds' and ini['mod']['config_menu']=='standard'
