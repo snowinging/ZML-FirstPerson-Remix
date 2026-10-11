@@ -1,5 +1,5 @@
 return function(P)
-    local M={wanted=false, settings=nil, lease=nil, failed=false, turning=false}
+    local M={wanted=false, holding=false, settings=nil, lease=nil, failed=false, turning=false}
     local function clamp(x,a,b) return math.max(a,math.min(b,x)) end
     local function angle(x) return (x+180)%360-180 end
     local function number(v,key,lo,hi)
@@ -15,6 +15,12 @@ return function(P)
             c[d[1]]=number(v,d[1],d[2],d[3])
         end
         c.turn_threshold=v.turn_threshold==nil and 90 or number(v,'turn_threshold',0,180)
+        c.rotation_smoothing=v.rotation_smoothing==nil and .015 or number(v,'rotation_smoothing',0,.1)
+        for _,k in ipairs({'relax_blocked_input','relax_cursor','relax_phase_level','relax_temp_camera','relax_cinematic','relax_controller'}) do
+            if v[k]==nil then c[k]=false else c[k]=bool(v,k) end
+        end
+        if v.diagnose_view_gates==nil then c.diagnose_view_gates=true else c.diagnose_view_gates=bool(v,'diagnose_view_gates') end
+        if v.hold_on_view_hide==nil then c.hold_on_view_hide=true else c.hold_on_view_hide=bool(v,'hold_on_view_hide') end
         if v.native_body_turn==nil then c.native_body_turn=false else c.native_body_turn=bool(v,'native_body_turn') end
         if v.head_look_binding==nil then c.head_look_binding=false else c.head_look_binding=bool(v,'head_look_binding') end
         if v.turn_in_place==nil then c.turn_in_place=true else c.turn_in_place=bool(v,'turn_in_place') end
@@ -59,13 +65,27 @@ return function(P)
         dt=clamp(tonumber(dt) or 0,0,.1)
         if P.pressed() then M.toggle() end
         if M.lease and M.lease.releasing then if not M.release() then return end end
-        local ch=P.character()
-        local allowed=ch and M.settings.enabled and M.wanted and not M.failed and P.allowed(ch)
-        if M.lease and (not allowed or M.lease.character~=ch or not P.ownsCamera(M.lease)) then
-            if not M.release() then return end
+        local ch=P.character(M.settings.relax_cinematic)
+        if not ch and P.diagnose then
+            local raw=GameInstance.playerController and GameInstance.playerController.mainCharacter
+            if not raw or not raw:IsValid() then P.diagnose('gate_no_character')
+            elseif not raw.alive then P.diagnose('gate_character_dead')
+            elseif raw.inCinematic then P.diagnose('gate_cinematic') end
         end
-        if not allowed then return end
+        local allowed=ch and M.settings.enabled and M.wanted and not M.failed and P.allowed(ch,M.settings)
+        if M.lease and not M.holding then
+            local owned=P.ownsCamera(M.lease,M.settings.relax_controller)
+            if allowed and P.diagnose then
+                if M.lease.character~=ch then P.diagnose('gate_character_changed')
+                elseif not owned then P.diagnose('gate_owns_camera') end
+            end
+            if not allowed or M.lease.character~=ch or not owned then
+                if not M.release() then return end
+            end
+        end
+        if not allowed and not M.holding then return end
         if not M.lease then
+            if not ch then return end
             local l=P.capture(ch)
             M.lease=l
             M.yaw,M.pitch=l.yaw,l.pitch

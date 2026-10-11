@@ -40,6 +40,7 @@ jobs:
           gh release create ${{ github.ref_name }} "$env:ZIP_PATH" "$env:ZIP_PATH.sha256" --title "${{ github.ref_name }}" --generate-notes
 
       - name: Checkout Mod Index Repository
+        if: github.repository == 'sakevel/Endfield-FirstPerson'
         uses: actions/checkout@v4
         with:
           repository: sakevel/Endfield-ModIndex
@@ -47,6 +48,7 @@ jobs:
           path: mod-index
 
       - name: Update Mod Index and Submit PR
+        if: github.repository == 'sakevel/Endfield-FirstPerson'
         env:
           GH_TOKEN: ${{ secrets.INDEX_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
