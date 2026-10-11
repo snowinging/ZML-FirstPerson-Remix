@@ -10,7 +10,9 @@ for name in m['files']:
     assert Path(name).name==name and (root/name).is_file()
     if name!='FirstPerson.dll':assert (root/name).read_bytes()==(source/name).read_bytes()
 schema=configparser.ConfigParser();schema.read(root/'config.ini',encoding='utf8')
-assert len(schema.sections())==25
+_src=configparser.ConfigParser();_src.read(source/'config.ini',encoding='utf8')
+assert len(schema.sections())==len(_src.sections())
+assert set(schema.sections())==set(_src.sections())
 assert schema['field.turn_threshold']['default']=='90' and schema['field.native_body_turn']['default']=='false'
 assert schema['field.head_look_binding']['default']=='false'
 assert schema['field.turn_in_place']['default']=='true'
